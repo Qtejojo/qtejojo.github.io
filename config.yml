@@ -3,7 +3,7 @@
 baseURL: "https://gtejojo.github.io/"
 title: Gtejojo's Blog
 paginate: 5
-theme: [hugo-PaperMod]
+theme: [PaperMod]
 
 enableInlineShortcodes: true
 enableRobotsTXT: true
