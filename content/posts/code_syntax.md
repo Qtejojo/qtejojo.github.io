@@ -14,13 +14,6 @@ TocOpen: true
 
 # Zero-Shot Prompting
 
-import {Bleed} from 'nextra-theme-docs'
-
-<iframe width="100%"
-  height="415px"
-  src="https://www.youtube.com/embed/ZTaHqdkxUMs?si=EDLjgAxuFxFcrSM3" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-  />
 
 Large language models (LLMs) today, such as GPT-3.5 Turbo, GPT-4, and Claude 3, are tuned to follow instructions and are trained on large amounts of data. Large-scale training makes these models capable of performing some tasks in a "zero-shot" manner. Zero-shot prompting means that the prompt used to interact with the model won't contain examples or demonstrations. The zero-shot prompt directly instructs the model to perform a task without any additional examples to steer it.
 
@@ -48,20 +41,11 @@ When zero-shot doesn't work, it's recommended to provide demonstrations or examp
 
 # Tree of Thoughts (ToT)
 
-import { Callout, FileTree } from 'nextra-theme-docs'
-import {Screenshot} from 'components/screenshot'
-import TOT from '../../img/TOT.png'
-import TOT2 from '../../img/TOT2.png'
-import TOT3 from '../../img/TOT3.png'
-
 For complex tasks that require exploration or strategic lookahead, traditional or simple prompting techniques fall short. [Yao et el. (2023)](https://arxiv.org/abs/2305.10601) and [Long (2023)](https://arxiv.org/abs/2305.08291) recently proposed Tree of Thoughts (ToT), a framework that generalizes over chain-of-thought prompting and encourages exploration over thoughts that serve as intermediate steps for general problem solving with language models.
 
 ToT maintains a tree of thoughts, where thoughts represent coherent language sequences that serve as intermediate steps toward solving a problem. This approach enables an LM to self-evaluate the progress through intermediate thoughts made towards solving a problem through a deliberate reasoning process. The LM's ability to generate and evaluate thoughts is then combined with search algorithms (e.g., breadth-first search and depth-first search) to enable systematic exploration of thoughts with lookahead and backtracking.
 
 The ToT framework is illustrated below:
-
-<Screenshot src={TOT} alt="TOT" />
-Image Source: [Yao et el. (2023)](https://arxiv.org/abs/2305.10601)
 
 When using ToT, different tasks requires defining the number of candidates and the number of thoughts/steps. For instance, as demonstrated in the paper, Game of 24 is used as a mathematical reasoning task which requires decomposing the thoughts into 3 steps, each involving an intermediate equation. At each step, the best b=5 candidates are kept.
 
@@ -374,17 +358,6 @@ More recently, these retriever-based approaches have become more popular and are
 
 Below, we have prepared a notebook tutorial showcasing the use of open-source LLMs to build a RAG system for generating short and concise machine learning paper titles:
 
-<Cards>
-    <Card
-    icon={<CodeIcon />}
-    title="Getting Started with RAG"
-    href="https://github.com/dair-ai/Prompt-Engineering-Guide/blob/main/notebooks/pe-rag.ipynb"
-    />
-</Cards>
-
-<Callout type= "info" emoji="🎓">
-  Want to learn more about RAG? Check out our [new cohort-based course](https://maven.com/dair-ai/prompt-engineering-llms?cohortSlug=). Use promo code MAVENAI20 for a 20% discount.
-</Callout>
 
 ## References
 
