@@ -40,34 +40,34 @@ languages:
         - name: WiKi
           url: 
 
-  fr:
-    languageName: ":fr:"
+  ch:
+    languageName: ":ch:"
     weight: 2
-    title: PaperModL2
+    title: 舟舟老齐的博客
     taxonomies:
-      category: FRcategories
-      tag: FRtags
-      series: FRseries
+      category: CHcategories
+      tag: CHtags
+      series: CHseries
     menu:
       main:
         - name: Archive
           url: archives/
           weight: 5
-        - name: FRTags
-          url: frtags
+        - name: CHTags
+          url: CHtags
           weight: 10
-        - name: FRCategories
-          url: frcategories
+        - name: CHCategories
+          url: CHcategories
           weight: 10
-        - name: FRSeries
-          url: frseries
+        - name: CHSeries
+          url: CHseries
           weight: 10
         - name: NullLink
           url: "#"
 
     # custom params for each language should be under [langcode].parms - hugo v0.120.0
     params:
-      languageAltTitle: French
+      languageAltTitle: Chinese
       profileMode:
         enabled: true
         title: PaperMod
@@ -85,7 +85,7 @@ languages:
   fa:
     languagedirection: rtl
     weight: 3
-    title: PaperMod RTL
+    title: 舟舟老齐的博客
     taxonomies:
       category: FAcategories
       tag: FAtags
