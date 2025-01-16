@@ -14,29 +14,32 @@ TocOpen: true
 
 # Zero-Shot Prompting
 
+Large language models (LLMs), such as GPT-3.5 Turbo, GPT-4, and Claude 3, are designed to follow instructions effectively, thanks to their training on vast amounts of data. This extensive training enables these models to perform some tasks in a "zero-shot" manner. Zero-shot prompting involves directly instructing the model to complete a task without providing examples or demonstrations. The model relies solely on the clarity of the instruction to generate an accurate response.
 
-Large language models (LLMs) today, such as GPT-3.5 Turbo, GPT-4, and Claude 3, are tuned to follow instructions and are trained on large amounts of data. Large-scale training makes these models capable of performing some tasks in a "zero-shot" manner. Zero-shot prompting means that the prompt used to interact with the model won't contain examples or demonstrations. The zero-shot prompt directly instructs the model to perform a task without any additional examples to steer it.
+For instance, consider the following example of zero-shot prompting for text classification:
 
-We tried a few zero-shot examples in the previous section. Here is one of the examples (ie., text classification) we used:
-
-*Prompt:*
+**Prompt:**
 ```
-Classify the text into neutral, negative or positive. 
+Classify the text into neutral, negative, or positive. 
 
 Text: I think the vacation is okay.
 Sentiment:
 ```
 
-*Output:*
+**Output:**
 ```
 Neutral
 ```
 
-Note that in the prompt above we didn't provide the model with any examples of text alongside their classifications, the LLM already understands "sentiment" -- that's the zero-shot capabilities at work. 
+In this example, the model accurately determines the sentiment without being shown any examples of labeled text. This demonstrates the model's inherent understanding of concepts like "sentiment" through its training — a hallmark of zero-shot capabilities.
 
-Instruction tuning has been shown to improve zero-shot learning [Wei et al. (2022)](https://arxiv.org/pdf/2109.01652.pdf). Instruction tuning is essentially the concept of finetuning models on datasets described via instructions. Furthermore, [RLHF](https://arxiv.org/abs/1706.03741) (reinforcement learning from human feedback) has been adopted to scale instruction tuning wherein the model is aligned to better fit human preferences. This recent development powers models like ChatGPT. We will discuss all these approaches and methods in upcoming sections.
+### Enhancing Zero-Shot Learning with Instruction Tuning
 
-When zero-shot doesn't work, it's recommended to provide demonstrations or examples in the prompt which leads to few-shot prompting. In the next section, we demonstrate few-shot prompting.
+Instruction tuning has been shown to significantly improve zero-shot learning capabilities, as highlighted by [Wei et al. (2022)](https://arxiv.org/pdf/2109.01652.pdf). This technique involves fine-tuning models on datasets framed as instructions, helping them better understand and execute user prompts. Additionally, advancements like [RLHF (Reinforcement Learning from Human Feedback)](https://arxiv.org/abs/1706.03741) align models with human preferences by optimizing responses through iterative feedback. These innovations underpin the capabilities of modern models like ChatGPT.
+
+### Limitations and Transition to Few-Shot Prompting
+
+While zero-shot prompting is powerful, it may not always produce the desired results, particularly for complex or ambiguous tasks. In such cases, providing the model with a few examples or demonstrations in the prompt — known as few-shot prompting — can significantly enhance performance. We will explore this technique in detail in the next section.
 
 
 # Tree of Thoughts (ToT)
@@ -147,11 +150,6 @@ Here are some limitations of Reflexion:
 
 # ReAct Prompting
 
-import { Callout, FileTree } from 'nextra-theme-docs'
-import {Screenshot} from 'components/screenshot'
-import REACT from '../../img/react.png'
-import REACT1 from '../../img/react/table1.png'
-import REACT2 from '../../img/react/alfworld.png'
 
 [Yao et al., 2022](https://arxiv.org/abs/2210.03629) introduced a framework named ReAct where LLMs are used to generate both *reasoning traces* and *task-specific actions* in an interleaved manner. 
 
@@ -223,9 +221,6 @@ Note that different prompts setups are used for different types of tasks. For ta
 
 The paper first evaluates ReAct on knowledge-intensive reasoning tasks such as question answering (HotPotQA) and fact verification ([Fever](https://fever.ai/resources.html)). PaLM-540B is used as the base model for prompting. 
 
-<Screenshot src={REACT1} alt="REACT1" />
-Image Source: [Yao et al., 2022](https://arxiv.org/abs/2210.03629)
-
 The prompting results on HotPotQA and Fever using different prompting methods show that ReAct generally performs better than Act (involves acting only) on both tasks. 
 
 We can also observe that ReAct outperforms CoT on Fever and lags behind CoT on HotpotQA. A detailed error analysis is provided in the paper. In summary:
@@ -241,9 +236,6 @@ Prompting methods that combine and support switching between ReAct and CoT+Self-
 The paper also reports results demonstrating ReAct's performance on decision making tasks. ReAct is evaluated on two benchmarks called [ALFWorld](https://alfworld.github.io/) (text-based game) and [WebShop](https://webshop-pnlp.github.io/) (online shopping website environment). Both involve complex environments that require reasoning to act and explore effectively. 
 
 Note that the ReAct prompts are designed differently for these tasks while still keeping the same core idea of combining reasoning and acting. Below is an example for an ALFWorld problem involving ReAct prompting. 
-
-<Screenshot src={REACT2} alt="REACT2" />
-Image Source: [Yao et al., 2022](https://arxiv.org/abs/2210.03629)
 
 ReAct outperforms Act on both ALFWorld and Webshop. Act, without any thoughts, fails to correctly decompose goals into subgoals. Reasoning seems to be advantageous in ReAct for these types of tasks but current prompting-based methods are still far from the performance of expert humans on these tasks. 
 
@@ -328,12 +320,6 @@ You can find the notebook for this code here: https://github.com/dair-ai/Prompt-
 
 # Retrieval Augmented Generation (RAG)
 
-import {Cards, Card} from 'nextra-theme-docs'
-import {TerminalIcon} from 'components/icons'
-import {CodeIcon} from 'components/icons'
-import {Screenshot} from 'components/screenshot'
-import RAG from '../../img/rag.png'
-import { Callout } from 'nextra/components'
 
 General-purpose language models can be fine-tuned to achieve several common tasks such as sentiment analysis and named entity recognition. These tasks generally don't require additional background knowledge.
 
@@ -345,8 +331,6 @@ RAG takes an input and retrieves a set of relevant/supporting documents given a 
 
 Lewis et al., (2021) proposed a general-purpose fine-tuning recipe for RAG. A pre-trained seq2seq model is used as the parametric memory and a dense vector index of Wikipedia is used as non-parametric memory (accessed using a neural pre-trained retriever). Below is a overview of how the approach works:
 
-<Screenshot src={RAG} alt="RAG" />
-Image Source: [Lewis et el. (2021)](https://arxiv.org/pdf/2005.11401.pdf) 
 
 RAG performs strong on several benchmarks such as [Natural Questions](https://ai.google.com/research/NaturalQuestions), [WebQuestions](https://paperswithcode.com/dataset/webquestions), and CuratedTrec. RAG generates responses that are more factual, specific, and diverse when tested on MS-MARCO and Jeopardy questions. RAG also improves results on FEVER fact verification.
 
@@ -366,9 +350,6 @@ Below, we have prepared a notebook tutorial showcasing the use of open-source LL
 
 
 # Prompt Chaining
-
-import {Screenshot} from 'components/screenshot'
-import PC1 from '../../img/prompt_chaining/prompt-chaining-1.png'
 
 ## Introduction to Prompt Chaining
 
@@ -474,14 +455,8 @@ You can also find more examples of prompt chaining in this [documentation](https
 
 # PAL (Program-Aided Language Models)
  
-import { Callout, FileTree } from 'nextra-theme-docs'
-import {Screenshot} from 'components/screenshot'
-import PAL from '../../img/pal.png'
 
 [Gao et al., (2022)](https://arxiv.org/abs/2211.10435) presents a method that uses LLMs to read natural language problems and generate programs as the intermediate reasoning steps. Coined, program-aided language models (PAL), it differs from chain-of-thought prompting in that instead of using free-form text to obtain solution it offloads the solution step to a programmatic runtime such as a Python interpreter.
-
-<Screenshot src={PAL} alt="PAL" />
-Image Source: [Gao et al., (2022)](https://arxiv.org/abs/2211.10435)
 
 Let's look at an example using LangChain and OpenAI GPT-3. We are interested to develop a simple application that's able to interpret the question being asked and provide an answer by leveraging the Python interpreter. 
 
@@ -592,28 +567,16 @@ This will output the following: `02/27/1998`
 
 # Multimodal CoT Prompting
 
-import { Callout, FileTree } from 'nextra-theme-docs'
-import {Screenshot} from 'components/screenshot'
-import MCOT from '../../img/multimodal-cot.png'
 
 [Zhang et al. (2023)](https://arxiv.org/abs/2302.00923) recently proposed a multimodal chain-of-thought prompting approach. Traditional CoT focuses on the language modality. In contrast, Multimodal CoT incorporates text and vision into a two-stage framework. The first step involves rationale generation based on multimodal information. This is followed by the second phase, answer inference, which leverages the informative generated rationales.
 
 The multimodal CoT model (1B) outperforms GPT-3.5 on the ScienceQA benchmark.
 
-<Screenshot src={MCOT} alt="MCOT" />
-Image Source: [Zhang et al. (2023)](https://arxiv.org/abs/2302.00923)
 
 Further reading:
 - [Language Is Not All You Need: Aligning Perception with Language Models](https://arxiv.org/abs/2302.14045) (Feb 2023)
 
 # Generated Knowledge Prompting
-
-import {Screenshot} from 'components/screenshot'
-import GENKNOW from '../../img/gen-knowledge.png'
-
-<Screenshot src={GENKNOW} alt="GENKNOW" />
-
-Image Source: [Liu et al. 2022](https://arxiv.org/pdf/2110.08387.pdf)
 
 LLMs continue to be improved and one popular technique includes the ability to incorporate knowledge or information to help the model make more accurate predictions. 
 
@@ -708,7 +671,6 @@ More coming soon!
 
 # Few-Shot Prompting
 
-import { Callout } from 'nextra/components'
 
 While large-language models demonstrate remarkable zero-shot capabilities, they still fall short on more complex tasks when using the zero-shot setting. Few-shot prompting can be used as a technique to enable in-context learning where we provide demonstrations in the prompt to steer the model to better performance. The demonstrations serve as conditioning for subsequent examples where we would like the model to generate a response.
 
@@ -823,9 +785,6 @@ Overall, it seems that providing examples is useful for solving some tasks. When
 
 # Directional Stimulus Prompting
 
-import { Callout, FileTree } from 'nextra-theme-docs'
-import {Screenshot} from 'components/screenshot'
-import DSP from '../../img/dsp.jpeg'
 
 [Li et al., (2023)](https://arxiv.org/abs/2302.11520) proposes a new prompting technique to better guide the LLM in generating the desired summary.
 
@@ -840,18 +799,12 @@ Full example coming soon!
 
 # Chain-of-Thought Prompting
 
-import { Callout } from 'nextra/components'
-import {Screenshot} from 'components/screenshot'
-import COT from '../../img/cot.png'
-import ZEROCOT from '../../img/zero-cot.png'
-import AUTOCOT from '../../img/auto-cot.png'
 
 
 ## Chain-of-Thought (CoT) Prompting
 
 <Screenshot src={COT} alt="COT" />
 
-Image Source: [Wei et al. (2022)](https://arxiv.org/abs/2201.11903)
 
 Introduced in [Wei et al. (2022)](https://arxiv.org/abs/2201.11903), chain-of-thought (CoT) prompting enables complex reasoning capabilities through intermediate reasoning steps. You can combine it with few-shot prompting to get better results on more complex tasks that require reasoning before responding.
 
@@ -898,9 +851,6 @@ Keep in mind that the authors claim that this is an emergent ability that arises
 
 ## Zero-shot COT Prompting
 
-<Screenshot src={ZEROCOT} alt="Zero-shot COT" />
-
-Image Source: [Kojima et al. (2022)](https://arxiv.org/abs/2205.11916)
 
 One recent idea that came out more recently is the idea of [zero-shot CoT](https://arxiv.org/abs/2205.11916) (Kojima et al. 2022) that essentially involves adding "Let's think step by step" to the original prompt. Let's try a simple problem and see how the model performs:
 
@@ -933,10 +883,6 @@ Finally, you ate 1 apple, so you would remain with 10 apples.
 
 It's impressive that this simple prompt is effective at this task. This is particularly useful where you don't have too many examples to use in the prompt.
 
-<Callout type= "info" emoji="🎓">
-  Want to learn more about advanced use cases of Chain-of-Thought? Check out our [new cohort-based course](https://maven.com/dair-ai/prompt-engineering-llms?cohortSlug=). Use promo code MAVENAI20 for a 20% discount.
-</Callout>
-
 ## Automatic Chain-of-Thought (Auto-CoT)
 
 When applying chain-of-thought prompting with demonstrations, the process involves hand-crafting effective and diverse examples. This manual effort could lead to suboptimal solutions. [Zhang et al. (2022)](https://arxiv.org/abs/2210.03493) propose an approach to eliminate manual efforts by leveraging LLMs with "Let's think step by step" prompt to generate reasoning chains for demonstrations one by one. This automatic process can still end up with mistakes in generated chains. To mitigate the effects of the mistakes, the diversity of demonstrations matter. This work proposes Auto-CoT, which samples questions with diversity and generates reasoning chains to construct the demonstrations. 
@@ -950,9 +896,6 @@ The simple heuristics could be length of questions (e.g., 60 tokens) and number 
 
 The process is illustrated below:
 
-<Screenshot src={AUTOCOT} alt="AUTOCOT" />
-
-Image Source: [Zhang et al. (2022)](https://arxiv.org/abs/2210.03493)
 
 Code for Auto-CoT is available [here](https://github.com/amazon-science/auto-cot).
 
@@ -1037,11 +980,6 @@ Computing for the final answer involves a few steps (check out the paper for the
 
 # Automatic Reasoning and Tool-use (ART)
 
-import { Callout, FileTree } from 'nextra-theme-docs'
-import {Screenshot} from 'components/screenshot'
-import ART from '../../img/ART.png'
-import ART2 from '../../img/ART2.png'
-
 Combining CoT prompting and tools in an interleaved manner has shown to be a strong and robust approach to address many tasks with LLMs. These approaches typically require hand-crafting task-specific demonstrations and carefully scripted interleaving of model generations with tool use. [Paranjape et al., (2023)](https://arxiv.org/abs/2303.09014) propose a new framework that uses a frozen LLM to automatically generate intermediate reasoning steps as a program.
 
 ART works as follows:
@@ -1051,25 +989,12 @@ ART works as follows:
 ART encourages the model to generalize from demonstrations to decompose a new task and
 use tools in appropriate places, in a zero-shot fashion. In addition, ART is extensible as it also enables humans to fix mistakes in the reasoning steps or add new tools by simply updating the task and tool libraries. The process is demonstrated below:
 
-<Screenshot src={ART} alt="ART" />
-Image Source: [Paranjape et al., (2023)](https://arxiv.org/abs/2303.09014)
-
 ART substantially improves over few-shot prompting and automatic CoT on unseen tasks in the BigBench and MMLU benchmarks, and exceeds performance of hand-crafted CoT prompts when human feedback is incorporated. 
 
 Below is a table demonstrating ART's performance on BigBench and MMLU tasks:
 
-<Screenshot src={ART2} alt="ART2" />
-Image Source: [Paranjape et al., (2023)](https://arxiv.org/abs/2303.09014)
 
 # Automatic Prompt Engineer (APE)
-
-import { Callout, FileTree } from 'nextra-theme-docs'
-import {Screenshot} from 'components/screenshot'
-import APE from '../../img/APE.png'
-import APECOT from '../../img/ape-zero-shot-cot.png'
-
-<Screenshot src={APE} alt="APE" />
-Image Source: [Zhou et al., (2022)](https://arxiv.org/abs/2211.01910)
 
 [Zhou et al., (2022)](https://arxiv.org/abs/2211.01910) propose automatic prompt engineer (APE) a framework for automatic instruction generation and selection. The instruction generation problem is framed as natural language synthesis addressed as a black-box optimization problem using LLMs to generate and search over candidate solutions.
 
@@ -1079,8 +1004,6 @@ APE discovers a better zero-shot CoT prompt than the human engineered "Let's thi
 
 The prompt "Let's work this out in a step by step way to be sure we have the right answer." elicits chain-of-thought reasoning and improves performance on the MultiArith and GSM8K benchmarks:
 
-<Screenshot src={APECOT} alt="APECOT" />
-Image Source: [Zhou et al., (2022)](https://arxiv.org/abs/2211.01910)
 
 This paper touches on an important topic related to prompt engineering which is the idea of automatically optimizing prompts. While we don't go deep into this topic in this guide, here are a few key papers if you are interested in the topic:
 
@@ -1093,14 +1016,8 @@ This paper touches on an important topic related to prompt engineering which is 
 
 # Active-Prompt
 
-import { Callout, FileTree } from 'nextra-theme-docs'
-import {Screenshot} from 'components/screenshot'
-import ACTIVE from '../../img/active-prompt.png'
 
 Chain-of-thought (CoT) methods rely on a fixed set of human-annotated exemplars. The problem with this is that the exemplars might not be the most effective examples for the different tasks. To address this, [Diao et al., (2023)](https://arxiv.org/pdf/2302.12246.pdf) recently proposed a new prompting approach called Active-Prompt to adapt LLMs to different task-specific example prompts (annotated with human-designed CoT reasoning).
 
 Below is an illustration of the approach. The first step is to query the LLM with or without a few CoT examples. *k* possible answers are generated for a set of training questions. An uncertainty metric is calculated based on the *k* answers (disagreement used). The most uncertain questions are selected for annotation by humans. The new annotated exemplars are then used to infer each question. 
-
-<Screenshot src={ACTIVE} alt="ACTIVE" />
-Image Source: [Diao et al., (2023)](https://arxiv.org/pdf/2302.12246.pdf)
 
